@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            background: url('https://img.freepik.com/premium-photo/hitech-digital-technology-concept-futuristic-abstract-cyberspace-background-data-center-server-internet-speed-artificial-intelligence-geometric-artificial-intelligence-tech-backdrop-3d-rendering_105386-2274.jpg') center center no-repeat;
+            background-size: cover;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: 300;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .holo-ui {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 5px; /* More squared shape */
+            padding: 20px;
+            width: 56%; /* Increased width */
+            height: 72%; /* Adjusted height */
+ box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); /* Glowing border */
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        .holo-ui .border-frame {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border: 3px solid rgba(0, 255, 255, 0.6);
+            border-radius: 5px; /* More squared shape */
+            pointer-events: none;
+        }
+
+        /* Log Out Link */
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #00aaff;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .logout-link:hover {
+            color: #00ffff;
+        }
+
+       /* Tab Styles */
+.tabs {
+    display: flex;
+    justify-content: center; /* Center the tabs */
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px 0; /* Reduced padding */
+    border-top: 3px solid rgba(0, 255, 255, 0.6);
+    border-radius: 0 0 10px 10px;
+    z-index: 1000; /* Ensure tabs are above other content */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom:-69px;
+    margin-left:-319px;
+}
+
+/* Tab Styles */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px 8px; /* Reduced padding */
+    border-top: 3px solid rgba(0, 255, 255, 0.6);
+    border-radius: 0 0 10px 10px;
+    z-index: 1000; /* Ensure tabs are above other content */
+    width: 1500px;
+    
+}
+
+.tab {
+    color: #00ffff;
+    text-decoration: none;
+    padding: 5px 10px; /* Reduced padding */
+    font-size: 18px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    margin: 0 2px; /* Reduced margin */
+}
+
+.tab.active {
+    border-color: #00aaff;
+    color: #00ffff;
+    font-weight: bold;
+}
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: -35px; /* Lift up the stats text more */
+}
+
+.stats-text {
+    font-size: 18px;
+    font-family: 'Poppins';
+    color: #00aaff;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+    border: 2px solid #00aaff; /* Blue border */
+    padding: 5px; /* Small padding */
+    border-radius: 5px;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: dark background */
+    box-shadow: 
+        0 0 2px rgba(0, 170, 255, 0.8), 
+        0 0 2px rgba(0, 170, 255, 0.6), 
+        0 0 2px rgba(0, 170, 255, 0.4); /* Glowing effect */
+        margin-bottom: 20px; /* Add space between title and content */
+    margin-top: -200px; /* Lift up the stats text more */
+}
+        .profile-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: flex-start; /* Align items to the left */
+            width: 100%;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #00aaff;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            margin-right: 20px;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .username {
+            font-size: 24px;
+            color: #00aaff;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 20px;
+            color: #00aaff;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+            margin-top: 5px;
+        }
+
+        .rank {
+            font-size: 20px;
+            color: #00aaff;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+            margin-top: 5px;
+        }
+
+        .upload-input {
+            display: none;
+        }
+
+        .zoom-buttons {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+        }
+
+        .zoom-button {
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            padding: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .zoom-button:hover {
+            background-color: #00ffff;
+        }
+
+        .level-input {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #00aaff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #00aaff;
+        text-align: center;
+    }
+
+    .level {
+    font-size: 20px;
+    color: #00aaff;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+    margin-top: 5px;
+}
+
+.stats {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stat-name {
+    width: 100%;
+    color: #00aaff;
+}
+
+.rank, .level, .streaks {
+    font-size: 20px;
+    color: #00aaff;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+    margin-top: 5px;
+}
+
+.stat-button {
+    background-color: transparent;
+    font-size: 20px;
+    color: #00aaff;
+    border: 2px solid #00aaff;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+}
+
+.stat-button:hover {
+    background-color: #00aaff;
+    color: white;
+}
+
+.stat-name, .progress-value {
+    color: #00aaff;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+font-size:20px;
+    margin: left -20px;;
+}
+
+/* Stats Styles */
+.stats {
+    width: 100%;
+    margin-top: -10px; /* Lift up the stats */
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between stats */
+}
+
+.stat-name {
+    width: 125px;
+}
+.Stats-text {
+font-size: 18px;
+    font-family: 'Poppins';
+    color: #00aaff;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+    border: 2px solid #00aaff; /* Blue border */
+    padding: 5px; /* Small padding */
+    border-radius: 5px;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: dark background */
+    box-shadow: 
+        0 0 2px rgba(0, 170, 255, 0.8), 
+        0 0 2px rgba(0, 170, 255, 0.6), 
+        0 0 2px rgba(0, 170, 255, 0.4); /* Glowing effect */
+    margin-bottom: -70px; /* Add space between title and content */
+    position: relative;
+    margin-top: 20px;
+}
+#audio-player {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 15%;
+      margin-top: -200px;
+      margin-left: -500px;
+      z-index: 1000; /* Ensures it stays on top of other elements */
+    }
+ /* ... existing styles ... */
+
+    .level-up-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1000;
+        text-align: center;
+        display: none;
+    }
+
+    .popup-content {
+        font-size: 36px;
+        font-weight: bold;
+        
+  background: linear-gradient(
+            to right, 
+            #0f5dec, #070000, #1163dde1, #000000, #0790cf
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: rainbow-glow 5s linear infinite;
+        background-size: 500% 100%;
+    }
+
+    @keyframes rainbow-glow {
+        0% {
+            background-position: 0% 50%;
+        }
+        100% {
+            background-position: 100% 50%;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="holo-ui">
+        <div class="border-frame"></div>
+        <a class="logout-link" onclick="logout()">Log Out</a>
+        <div class="tabs">
+           
+            <a href="index.html" class="tab" onclick="playButtonSound()">Quest Info</a>
+            <a href="custom-quest.html" class="tab" onclick="playButtonSound()">Custom Quest</a>
+            <a href="stats.html" class="tab active" onclick="playButtonSound()">Stats</a> <!-- New tab link for Stats -->
+        </div>
+        <div class="stats-container">
+            <div class="Stat-container">
+                <span class="Stats-text">Stats 統計</span>
+            <div class="profile-container">
+                <div class="profile-picture" id="profile-picture" onclick="showZoomButtons(); document.getElementById('upload-input').click()">
+                    <img id="profile-picture-img" src="" alt="Profile Picture">
+                </div>
+                <div class="zoom-buttons" id="zoom-buttons">
+                    <button class="zoom-button" onclick="zoomIn(); playButtonSound()">Zoom In</button>
+                    <button class="zoom-button" onclick="zoomOut(); playButtonSound()">Zoom Out</button>
+                </div>
+                <div>
+                    <div class="username" id="username" onclick="editUsername()">Username</div>
+                    <div class="title" id="title"><span style="color: #00aaff;">Title:</span> Reawakened</div>
+                    <div class="rank" id="rank">Rank: E</div>
+                    <div class="level" id="level">Level: 0</div>
+                    <div class="streaks">
+                        <span>Streaks: </span><span id="streaks-value">0</span>
+            </div>
+                    <input type="file" id="upload-input" class="upload-input" accept="image/*" onchange="loadProfilePicture(event)">
+                </div>
+            </div>
+            <div class="status-board">
+                <span class="stats-text">Status</span>
+                <div class="stats">
+                    <div class="stat">
+                        <button class="stat-button" onclick="decreaseStat('strength'); playButtonSound()">-</button>
+            <span class="stat-name">Strength</span>
+            <button class="stat-button" onclick="increaseStat('strength'); playButtonSound()">+</button>
+            <span class="progress-value" id="strength-value">0</span>
+        </div>
+        <div class="stat">
+            <button class="stat-button" onclick="decreaseStat('intelligence'); playButtonSound()">-</button>
+            <span class="stat-name">Intelligence</span>
+            <button class="stat-button" onclick="increaseStat('intelligence'); playButtonSound()">+</button>
+            <span class="progress-value" id="intelligence-value">0</span>
+        </div>
+        <div class="stat">
+            <button class="stat-button" onclick="decreaseStat('agility'); playButtonSound()">-</button>
+            <span class="stat-name">Agility</span>
+            <button class="stat-button" onclick="increaseStat('agility'); playButtonSound()">+</button>
+            <span class="progress-value" id="agility-value">0</span>
+        </div>
+        <div class="stat">
+            <button class="stat-button" onclick="decreaseStat('stamina'); playButtonSound()">-</button>
+            <span class="stat-name">Stamina</span>
+            <button class="stat-button" onclick="increaseStat('stamina'); playButtonSound()">+</button>
+            <span class="progress-value" id="stamina-value">0</span>
+        </div>
+        <div class="stat">
+            <button class="stat-button" onclick="decreaseStat('discipline'); playButtonSound()">-</button>
+            <span class="stat-name">Discipline</span>
+            <button class="stat-button" onclick="increaseStat('discipline'); playButtonSound()">+</button>
+            <span class="progress-value" id="discipline-value">0</span>
+                    </div>
+                    
+                    <div id="level-up-popup" class="level-up-popup">
+                        <div class="popup-content" id="popup-new-level"></div>
+                    </div>
+<!-- Add audio elements for sound effects -->
+<audio id="button-sound" src="sounds/button-sound.mp3"></audio>
+<audio id="level-up-sound" src="sounds/level-up-sound.mp3"></audio>
+   
+   <script>
+        let zoomLevel = 1;
+        let hideZoomButtonsTimeout;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLogin();
+            loadProfileData();
+            hideZoomButtons();
+        });
+
+        function checkLogin() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        function loadProfilePicture(event) {
+            const profilePictureImg = document.getElementById('profile-picture-img');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                profilePictureImg.src = e.target.result;
+                zoomLevel = 1;
+                profilePictureImg.style.transform = `scale(${zoomLevel})`;
+                saveProfileData();
+                showZoomButtons();
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function zoomIn() {
+            const profilePictureImg = document.getElementById('profile-picture-img');
+            zoomLevel += 0.1;
+            profilePictureImg.style.transform = `scale(${zoomLevel})`;
+            saveProfileData();
+            showZoomButtons();
+        }
+
+        function zoomOut() {
+            const profilePictureImg = document.getElementById('profile-picture-img');
+            zoomLevel = Math.max(0.5, zoomLevel - 0.1); // Adjusted minimum zoom level to 0.5
+            profilePictureImg.style.transform = `scale(${zoomLevel})`;
+            saveProfileData();
+            showZoomButtons();
+        }
+
+        function saveProfileData() {
+            const profilePictureImg = document.getElementById('profile-picture-img');
+            const username = document.getElementById('username').innerText;
+            const title = document.getElementById('title').innerText;
+            const rank = document.getElementById('rank').innerText;
+            const level = document.getElementById('level').innerText;
+            const streaks = document.getElementById('streaks-value').innerText;
+            const strength = document.getElementById('strength-value').innerText;
+            const intelligence = document.getElementById('intelligence-value').innerText;
+            const agility = document.getElementById('agility-value').innerText;
+            const stamina = document.getElementById('stamina-value').innerText;
+            const discipline = document.getElementById('discipline-value').innerText;
+
+            const profileData = {
+                src: profilePictureImg.src,
+                zoomLevel: zoomLevel,
+                username: username,
+                title: title,
+                rank: rank,
+                level: level,
+                streaks: streaks,
+                strength: strength,
+                intelligence: intelligence,
+                agility: agility,
+                stamina: stamina,
+                discipline: discipline
+            };
+            localStorage.setItem('profileData', JSON.stringify(profileData));
+        }
+
+        function loadProfileData() {
+            const profileData = JSON.parse(localStorage.getItem('profileData'));
+            if (profileData) {
+                const profilePictureImg = document.getElementById('profile-picture-img');
+                profilePictureImg.src = profileData.src;
+                zoomLevel = profileData.zoomLevel;
+                profilePictureImg.style.transform = `scale(${zoomLevel})`;
+                document.getElementById('username').innerText = profileData.username || localStorage.getItem('loggedInUser');
+                document.getElementById('title').innerHTML = `<span style="color: #00aaff;">Title:</span> ${profileData.title || 'Reawakened'}`;
+                document.getElementById('rank').innerText = profileData.rank || 'Rank: E';
+                document.getElementById('level').innerText = profileData.level || 'Level: 0';
+                document.getElementById('streaks-value').innerText = profileData.streaks || 0;
+                document.getElementById('strength-value').innerText = profileData.strength || 0;
+                document.getElementById('intelligence-value').innerText = profileData.intelligence || 0;
+                document.getElementById('agility-value').innerText = profileData.agility || 0;
+                document.getElementById('stamina-value').innerText = profileData.stamina || 0;
+                document.getElementById('discipline-value').innerText = profileData.discipline || 0;
+                updateStats();
+            }
+        }
+
+        function showZoomButtons() {
+            clearTimeout(hideZoomButtonsTimeout);
+            const zoomButtons = document.getElementById('zoom-buttons');
+            zoomButtons.style.display = 'flex';
+            hideZoomButtonsTimeout = setTimeout(hideZoomButtons, 20000); // Hide after 20 seconds
+        }
+
+        function hideZoomButtons() {
+            const zoomButtons = document.getElementById('zoom-buttons');
+            zoomButtons.style.display = 'none';
+        }
+
+        function editUsername() {
+            const usernameElement = document.getElementById('username');
+            const newUsername = prompt('Enter your new username:', usernameElement.innerText);
+            if (newUsername !== null && newUsername.trim() !== '') {
+                if (localStorage.getItem(newUsername)) {
+                    alert('Username already taken');
+                } else {
+                    const oldUsername = usernameElement.innerText;
+                    localStorage.removeItem(oldUsername);
+                    usernameElement.innerText = newUsername;
+                    localStorage.setItem(newUsername, JSON.stringify({ username: newUsername }));
+                    localStorage.setItem('loggedInUser', newUsername);
+                    saveProfileData();
+                }
+            }
+        }
+
+        function updateStats() {
+    const levelElement = document.getElementById('level');
+    const titleElement = document.getElementById('title');
+    const rankElement = document.getElementById('rank');
+
+    const strength = parseInt(document.getElementById('strength-value').innerText);
+    const intelligence = parseInt(document.getElementById('intelligence-value').innerText);
+    const agility = parseInt(document.getElementById('agility-value').innerText);
+    const stamina = parseInt(document.getElementById('stamina-value').innerText);
+    const discipline = parseInt(document.getElementById('discipline-value').innerText);
+
+    const minStat = Math.min(strength, intelligence, agility, stamina, discipline);
+    const newLevel = Math.floor(minStat / 10);
+
+    const currentLevel = parseInt(levelElement.innerText.split(': ')[1]);
+    if (newLevel > currentLevel) {
+        showLevelUpPopup(newLevel);
+    }
+
+    levelElement.innerText = `Level: ${newLevel}`;
+
+    let title = 'Reawakened';
+    let rank = 'E';
+    let titleColor = '#00aaff'; // Blue
+
+    if (newLevel >= 10 && newLevel <= 19) {
+        rank = 'D';
+        title = 'Beast Hunter';
+        titleColor = '#ff0000'; // Red
+    } else if (newLevel >= 20 && newLevel <= 39) {
+        rank = 'C';
+        title = 'Beast Hunter';
+        titleColor = '#ff0000'; // Red
+    } else if (newLevel >= 40 && newLevel <= 59) {
+        rank = 'B';
+        title = 'False Ranker';
+        titleColor = '#ffd700'; // Gold
+    } else if (newLevel >= 60 && newLevel <= 79) {
+        rank = 'A';
+        title = 'False Ranker';
+        titleColor = '#ffd700'; // Gold
+    } else if (newLevel >= 80 && newLevel <= 100) {
+        rank = 'S';
+        title = 'The Void';
+        titleColor = '#9400D3'; // Bright Purple
+    } else if (newLevel >= 101) {
+        rank = 'N';
+        title = 'The Void';
+        titleColor = '#9400D3'; // Bright Purple
+    }
+
+    titleElement.innerHTML = `<span style="color: ${titleColor};">Title:</span> ${title}`;
+    titleElement.style.color = titleColor;
+    titleElement.style.textShadow = `0 0 5px ${titleColor}, 0 0 10px ${titleColor}, 0 0 15px ${titleColor}`;
+    rankElement.innerText = `Rank: ${rank}`;
+
+    saveProfileData();
+}
+
+ // ... existing code ...
+
+ function showLevelUpPopup(newLevel) {
+        const popup = document.getElementById('level-up-popup');
+        const popupText = document.getElementById('popup-new-level');
+        popupText.textContent = `Level Up! New Level: ${newLevel}`;
+        popup.style.display = 'block';
+        
+        // Play level-up sound
+        const levelUpSound = document.getElementById('level-up-sound');
+        levelUpSound.play();
+
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 3000);
+    }
+
+        function increaseStat(stat) {
+            const statValueElement = document.getElementById(`${stat}-value`);
+            let statValue = parseInt(statValueElement.innerText);
+            statValue++;
+            statValueElement.innerText = statValue;
+            updateStats();
+        }
+
+        function decreaseStat(stat) {
+            const statValueElement = document.getElementById(`${stat}-value`);
+            let statValue = parseInt(statValueElement.innerText);
+            if (statValue > 0) {
+                statValue--;
+            }
+            statValueElement.innerText = statValue;
+            updateStats();
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
+        }
+        function playButtonSound() {
+            const buttonSound = document.getElementById('button-sound');
+            buttonSound.play();
+        }
+    </script>
+</body>
+</html>
+<head>
+<body>
+</style>
+</head>
+<body>
+    <audio id="audio-player" controls autoplay loop>
+      <source src="Reawakened.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+      document.getElementById('audio-player').volume = 0.1; // Set volume to 1%
+    </script>
+  </body>
+  </html>

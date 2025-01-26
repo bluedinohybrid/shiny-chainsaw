@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap" rel="stylesheet">
+    <style>
+   /* General Styles */
+body {
+    background: url('https://img.freepik.com/premium-photo/hitech-digital-technology-concept-futuristic-abstract-cyberspace-background-data-center-server-internet-speed-artificial-intelligence-geometric-artificial-intelligence-tech-backdrop-3d-rendering_105386-2274.jpg') center center no-repeat;
+    background-size: cover;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: 300;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+#audio-player {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 15%;
+      margin-top: -70px;
+      margin-left: -280px;
+      z-index: 1000; /* Ensures it stays on top of other elements */
+    }
+
+.holo-ui {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    height: 70%; /* Adjusted height */
+    max-width: 800px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); /* Glowing border */
+    backdrop-filter: blur(8px);
+    position: relative;
+}
+
+.holo-ui .border-frame {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    border: 3px solid rgba(0, 255, 255, 0.6);
+    border-radius: 15px;
+    pointer-events: none;
+}
+
+/* Tab Styles */
+.tabs {
+    display: flex;
+    justify-content: center; /* Center the tabs */
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px 0; /* Reduced padding */
+    border-top: 3px solid rgba(0, 255, 255, 0.6);
+    border-radius: 0 0 10px 10px;
+    z-index: 1000; /* Ensure tabs are above other content */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: -90px;
+    margin-left:-400px;
+}
+
+/* Tab Styles */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px 8px; /* Reduced padding */
+    border-top: 3px solid rgba(0, 255, 255, 0.6);
+    border-radius: 0 0 10px 10px;
+    z-index: 1000; /* Ensure tabs are above other content */
+    width: 1570px;
+    
+}
+
+.tab {
+    color: #00ffff;
+    text-decoration: none;
+    padding: 5px 10px; /* Reduced padding */
+    font-size: 18px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    margin: 0 2px; /* Reduced margin */
+}
+
+.tab:hover {
+    border-color: #00aaff;
+    color: #00ffff;
+}
+
+.tab.active {
+    border-color: #00aaff;
+    color: #00ffff;
+    font-weight: bold;
+}
+
+.custom-quest-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-quest-text {
+    font-size: 24px;
+    font-family: 'Poppins';
+    color: #00aaff;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+    border: 2px solid #00aaff; /* Blue border */
+    padding: 5px; /* Small padding */
+    border-radius: 5px;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: dark background */
+    box-shadow: 
+        0 0 2px rgba(0, 170, 255, 0.8), 
+        0 0 2px rgba(0, 170, 255, 0.6), 
+        0 0 2px rgba(0, 170, 255, 0.4); /* Glowing effect */
+}
+
+.plus-button {
+    font-size: 28px; /* Increased font size */
+    font-family: poppissans, serif;
+    color: #00aaff;
+    background: none;
+    border: 2px solid #00aaff; /* Blue border */
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
+        }
+
+        .plus-button:active {
+            transform: translateY(0);
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+        }
+
+        #custom-quest-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .custom-quest-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .custom-quest-checkbox {
+            margin-right: 5px; /* Adjusted margin */
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00aaff;
+            background-color: black; /* Black background */
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.6), 0 0 20px rgba(0, 170, 255, 0.4), 0 0 30px rgba(0, 170, 255, 0.2); /* Always glowing */
+            transition: box-shadow 0.3s ease;
+        }
+
+        .custom-quest-checkbox:checked {
+            background-color: black; /* Black background */
+            border-color: #00aaff;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.8), 0 0 25px rgba(0, 170, 255, 0.6), 0 0 35px rgba(0, 170, 255, 0.4); /* Stronger glow when checked */
+        }
+
+        .custom-quest-checkbox:checked::after {
+            content: '✔';
+            font-size: 14px;
+            color: red;
+            position: absolute;
+            top: -1px;
+            left: 2px;
+            text-shadow: 0 0 5px red, 0 0 10px red, 0 0 15px red;
+        }
+
+        .custom-quest-checkbox:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.8), 0 0 25px rgba(0, 170, 255, 0.6), 0 0 35px rgba(0, 170, 255, 0.4); /* Stronger glow on hover */
+        }
+
+        .custom-quest-item span {
+            margin-right: 10px; /* Adjusted margin */
+            color: #00aaff;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+        }
+
+        .delete-button {
+            font-size: 18px;
+            color: #00aaff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+        }
+
+        .delete-button:hover {
+            color: #00ffff;
+        }
+
+        /* Notification Styles */
+        .notification {
+            visibility: hidden; /* Initially hidden */
+            opacity: 0; /* Initially transparent */
+            position: fixed;
+            top: 50px;
+            right: 500px;
+            background-color: rgba(8, 2, 2, 0.753); /* Semi-transparent background */
+            color: rgb(11, 150, 185); /* Text color */
+            text-shadow: 
+                0 0 5px #00aaff,      /* Light blue glow around the text */
+                0 0 10px #00aaff,     /* Stronger blue glow */
+                0 0 15px #00aaff,     /* Even stronger glow */
+                0 0 20px #00aaff;     /* Maximum glow */
+            transition: opacity 0.3s ease-in-out; /* Smooth fade-in/out effect */
+            padding: 20px; /* Correct padding value */
+            border-radius: 5px;
+            font-family: 'Poppins';
+            z-index: 1000;
+            box-shadow: 
+                0 0 10px rgba(4, 122, 151, 0.8), /* Inner glow */
+                0 0 10px rgba(0, 204, 255, 0.8), /* Outer glow */
+                0 0 10px rgba(0, 204, 255, 0.4), /* Larger outer glow */
+                0 0 10px rgba(0, 204, 255, 0.3); /* Intense outer glow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-icon {
+            position: absolute; /* Position relative to .notification */
+            top: 10px; /* Adjust vertical position */
+            left: 40px; /* Adjust horizontal position */
+            background-color: #00aaff;
+            color: white;
+            font-size: 43px;
+            font-family: poppinsans-serif;
+            width: 49px;
+            height: 49px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%; /* Circular shape */
+            box-shadow: 
+                0 0 10px rgba(0, 170, 255, 0.8), 
+                0 0 20px rgba(0, 170, 255, 0.6), 
+                0 0 30px rgba(0, 170, 255, 0.4); /* Glow effect */
+        }
+
+        .info-icon::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid rgba(0, 170, 255, 0.6);
+            border-radius: 0; /* Squared shape */
+        }
+
+        .notification.show {
+            visibility: visible; /* Make visible */
+            opacity: 1; /* Fully opaque */
+        }
+
+        .notification-title {
+            font-size: 30px;
+            color: #00aaff;
+            font-family: 'Poppins';
+            font-weight: Thin;
+            position: absolute; /* Enables the "top" property to work */
+            top: 5px; /* Align with info icon */
+            left: 100px; /* Position next to info icon */
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.8), 0 0 10px rgba(0, 170, 255, 0.6), 0 0 15px rgba(0, 170, 255, 0.4);
+            border: 2px solid #00aaff; /* Blue border */
+            padding: 5px; /* Small padding */
+            border-radius: 5px;
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.5); /* Optional: dark background */
+            box-shadow: 
+                0 0 2px rgba(0, 170, 255, 0.8), 
+                0 0 2px rgba(0, 170, 255, 0.6), 
+                0 0 2px rgba(0, 170, 255, 0.4); /* Glowing effect */
+            margin-right: 20px; /* Add space between title and message */
+        }
+
+        #notification-message {
+            margin-top: 50px; /* Add space between title and message */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #db0d0d;
+            font-size: 20px;
+        }
+
+        .close-btn:hover {
+            color: #ff5555;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .info-icon {
+            margin-right: 13px; /* Espaço entre o ícone e o texto */
+        }
+
+        .notification-checkbox {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .notification-checkbox .checkbox {
+            width: 26px; /* Increased size */
+            height: 26px; /* Increased size */
+            margin-right: 5px;
+            position: relative;
+            background-color: black; /* Black background */
+            border: 2px solid #00aaff; /* Blue border */
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.6), 0 0 20px rgba(0, 170, 255, 0.4), 0 0 30px rgba(0, 170, 255, 0.2); /* Always glowing */
+        }
+
+        .notification-checkbox .checkbox::after {
+            content: '✔';
+            font-size: 20px; /* Larger checkmark */
+            color: red; /* Checkmark color */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the checkmark */
+            text-shadow: 0 0 5px red, 0 0 10px red, 0 0 15px red;
+        }
+    </style>
+</head>
+<body>
+    <div class="holo-ui">
+        <div class="border-frame"></div>
+        <div class="tabs">
+            <a href="index.html" class="tab" onclick="playButtonSound()">Quest Info</a>
+            <a href="custom-quest.html" class="tab active" onclick="playButtonSound()">Custom Quest</a>
+            <a href="stats.html" class="tab" onclick="playButtonSound()">Stats</a> <!-- New tab link for Stats -->
+        </div>
+        <div class="custom-quest-container">
+            <span class="custom-quest-text">Create Custom Quest 探求</span>
+            <button id="add-custom-quest" class="plus-button" onclick="playButtonSound()">+</button>
+        </div>
+        <ul id="custom-quest-list"></ul>
+    </div>
+
+    <div id="notification" class="notification">
+        <div class="info-icon">
+            <span class="notification-text">!</span> <!-- Info Icon -->
+        </div>
+        <span class="notification-title">Notification</span> <!-- Notification Title -->
+        <button id="close-notification" class="close-btn" onclick="playButtonSound()">X</button> <!-- Close Button -->
+        <p id="notification-message"></p> <!-- Notification Message -->
+        <div class="notification-checkbox">
+            <div class="checkbox"></div>
+        </div>
+    </div>
+
+    <!-- Add audio elements for sound effects -->
+    <audio id="checkbox-sound" src="sounds/checkbox-sound.mp3"></audio>
+    <audio id="button-sound" src="sounds/button-sound.mp3"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCustomQuests();
+    
+            document.getElementById('add-custom-quest').addEventListener('click', () => {
+                const customQuestName = prompt("Enter the custom quest name:");
+                if (customQuestName === null || customQuestName.trim() === "") return;
+    
+                addCustomQuest(customQuestName);
+                saveCustomQuests();
+            });
+        });
+    
+        function addCustomQuest(name, isChecked = false) {
+            const customQuestList = document.getElementById('custom-quest-list');
+            const listItem = document.createElement('li');
+            listItem.classList.add('custom-quest-item');
+    
+            listItem.innerHTML = `
+                <input type="checkbox" class="custom-quest-checkbox" ${isChecked ? 'checked' : ''} onclick="playCheckboxSound()">
+                <span>${name}</span>
+         <button class="delete-button" onclick="deleteCustomQuest(this); playButtonSound()">🗑️</button>
+            `;
+    
+            customQuestList.appendChild(listItem);
+    
+            // Add event listener for the new checkbox
+            listItem.querySelector('.custom-quest-checkbox').addEventListener('change', function() {
+                if (this.checked) {
+                    showNotification(`Congratulations! You have completed ${name}.`);
+                }
+                saveCustomQuests();
+            });
+        }
+    
+        function deleteCustomQuest(button) {
+            const listItem = button.parentElement;
+            listItem.remove();
+            saveCustomQuests();
+        }
+    
+        function saveCustomQuests() {
+            const customQuestList = document.getElementById('custom-quest-list');
+            const quests = [];
+            customQuestList.querySelectorAll('.custom-quest-item').forEach(item => {
+                const name = item.querySelector('span').innerText;
+                const isChecked = item.querySelector('.custom-quest-checkbox').checked;
+                quests.push({ name, isChecked });
+            });
+            localStorage.setItem('customQuests', JSON.stringify(quests));
+        }
+    
+        function loadCustomQuests() {
+            const quests = JSON.parse(localStorage.getItem('customQuests')) || [];
+            quests.forEach(quest => addCustomQuest(quest.name, quest.isChecked));
+        }
+    
+        document.getElementById('close-notification').addEventListener('click', function() {
+            document.getElementById('notification').classList.remove('show');
+        });
+    
+        function showNotification(message) {
+            const notification = document.getElementById("notification");
+            const notificationMessage = document.getElementById("notification-message");
+    
+            notificationMessage.innerText = message;
+            notification.classList.add("show");
+    
+            // Auto-close notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove("show");
+            }, 5000);
+        }
+    
+        function closeNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.remove('show');
+        }
+
+        function playCheckboxSound() {
+            const checkboxSound = document.getElementById('checkbox-sound');
+            checkboxSound.play();
+        }
+
+        function playButtonSound() {
+            const buttonSound = document.getElementById('button-sound');
+            buttonSound.play();
+        }
+    </script>
+</body>
+</html>
+<body>
+    <audio id="audio-player" controls autoplay loop>
+      <source src="Reawakened.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+      document.getElementById('audio-player').volume = 0.1; // Set volume to 1%
+    </script>
+  </body>
+  </html>
